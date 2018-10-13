@@ -9,7 +9,7 @@ class UserProfile(AbstractUser):
     """
     用户
     """
-    phone = models.CharField(max_length=11, null=True, blank=True, verbose_name="电话",)
+    mobile = models.CharField(max_length=11, null=True, blank=True, unique=True, verbose_name="电话",)
     birth = models.DateField(null=True, blank=True, verbose_name="生日")
     head = models.ImageField(max_length=100, upload_to="media/head", default="/default_head.jpg", verbose_name="头像")
     email = models.EmailField(max_length=100, verbose_name="邮箱")
@@ -34,5 +34,6 @@ class VerifyCode(models.Model):
         verbose_name = "短信验证码"
         verbose_name_plural = verbose_name
         app_label = "users"
+
     def __str__(self):
         return self.code

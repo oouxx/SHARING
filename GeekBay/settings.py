@@ -16,7 +16,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-#sys.path.insert(0, os.path.join(BASE_DIR, 'external_apps'))
+sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'operations.apps.OperationsConfig',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'xadmin',
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework.authtoken',   # token_authentication
+    'DjangoUeditor',
+    'mdeditor',
 ]
 
 MIDDLEWARE = [
@@ -93,6 +96,12 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
+
 
 
 # Password validation
@@ -141,9 +150,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+
 
     ),
     # 'DEFAULT_THROTTLE_CLASSES': (
@@ -155,3 +166,21 @@ REST_FRAMEWORK = {
     #     'user': '3/minute'
     # }
 }
+
+import datetime
+
+JWT_AUTH = {
+
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7 ),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+}
+
+
+#手机号码正则表达式
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+
+#云片网设置
+APIKEY = ""
+
+
