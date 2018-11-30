@@ -12,7 +12,7 @@ class UserProfile(AbstractUser):
     mobile = models.CharField(max_length=11, null=True, blank=True, unique=True, verbose_name="电话",)
     birth = models.DateField(null=True, blank=True, verbose_name="生日")
     head = models.ImageField(max_length=100, upload_to="media/head", default="/default_head.jpg", verbose_name="头像")
-    email = models.EmailField(max_length=100, verbose_name="邮箱")
+    email = models.EmailField(max_length=100, verbose_name="邮箱", null=True,blank=True )
     per_sign = models.CharField(max_length=100, verbose_name= "个性签名")
 
     class Meta:

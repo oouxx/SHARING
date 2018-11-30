@@ -1,7 +1,7 @@
 from datetime import datetime
 from users.models import UserProfile
 from django.db import models
-from posts.models import Opensource, Software, Hacker, Programming
+from posts.models import Opensource, Software, Programming
 # Create your models here.
 
 class Explore(models.Model):
@@ -33,7 +33,6 @@ class Comment(models.Model):
     content = models.TextField(verbose_name= "评论的内容")
     comm2opensource = models.ForeignKey(Opensource, verbose_name= "评论开源", on_delete=models.CASCADE, default="")
     comm2software = models.ForeignKey(Software, verbose_name="评论软件", on_delete=models.CASCADE, default="")
-    comm2hacker = models.ForeignKey(Hacker, verbose_name="评论hacker", on_delete=models.CASCADE, default="")
     comm2programming = models.ForeignKey(Programming, verbose_name="评论编程", on_delete=models.CASCADE, default="")
     comm2Explore = models.ForeignKey(Explore,verbose_name="评论探讨", on_delete=models.CASCADE, default="")
     class Meta:

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
-    'rest_framework.authtoken',   # token_authentication
+    'reversion',
+    # 'rest_framework.authtoken',   # token_authentication
     'DjangoUeditor',
     'mdeditor',
 ]

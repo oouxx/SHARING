@@ -1,6 +1,9 @@
 from .models import Software
+from .models import SoftwareDetail
+from .models import Programming
+from .models import ProgrammingDetail
 from .serializers import SoftwareSerializer
-
+from .serializers import SoftwareDetailSerializer
 
 # one way to come true
 # from rest_framework.views import APIView
@@ -20,9 +23,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
-from .filter import SoftwaresFilter
-from rest_framework.authentication import TokenAuthentication
+
 
 
 # set pagination
@@ -34,25 +35,45 @@ class SoftwaresPagination(PageNumberPagination):
 
 
 class SoftwareListSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
     pagniation_class = SoftwaresPagination
-    filter_class = SoftwaresFilter
-    # authentication_classes = (TokenAuthentication,)
-
-
-
-
-
-
-    # filter_backends = (DjangoFilterBackend, )   #   元祖后面要加“，”，  坑啊，以前不重视
-    # filter_field = ("type" ,"comment_no" ,"like_no")
-
     # 手动实现过滤
-    # def get_queryset(self):
-    #     queryset = Software.objects.all()
-    #     software_type = self.request.query_params.get("type", "")
-    #     if type:
-    #         queryset = queryset.filter(type=software_type)
-    #     return queryset
+    def get_queryset(self):
+        queryset = Software.objects.all()
+        software_type = self.request.query_params.get("type", "")
+        if software_type != "All":
+            queryset = queryset.filter(type=software_type)
+        return queryset
 
+
+class SoftwareDetailSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    serializer_class = SoftwareDetailSerializer
+
+    def get_queryset(self):
+        queryset = SoftwareDetail.objects.all()
+        software_id = self.request.query_params.get("id", 0)
+        if software_id:
+            queryset = queryset.filter(id=software_id)
+        return queryset
+
+
+class ProgramListSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    serializer_class = SoftwareSerializer
+    # 手动实现过滤
+    def get_queryset(self):
+        queryset = Programming.objects.all()
+        programming_type = self.request.query_params.get("type", "")
+        if programming_type != "All":
+            queryset = queryset.filter(type=programming_type)
+        return queryset
+
+
+class ProgramDetailSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    serializer_class = SoftwareDetailSerializer
+
+    def get_queryset(self):
+        queryset = SoftwareDetail.objects.all()
+        software_id = self.request.query_params.get("id", 0)
+        if software_id:
+            queryset = queryset.filter(id=software_id)
+        return queryset

@@ -2,7 +2,6 @@ from .models import Software
 from .models import SoftwareDetail
 from .models import Opensource
 from .models import OpensourceDetail
-from .models import Hacker
 from .models import Programming
 from .models import ProgrammingDetail
 import xadmin
@@ -34,8 +33,6 @@ class OpensourceAdmin(object):
 
     inlines = [OpensourceDetailInline]
 
-class HackerAdmin(object):
-    pass
 
 class ProgrammingAdmin(object):
     list_display = ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
@@ -52,6 +49,5 @@ class ProgrammingAdmin(object):
 
 xadmin.site.register(Software, SoftwareAdmin)
 xadmin.site.register(Opensource, OpensourceAdmin)
-xadmin.site.register(Hacker, HackerAdmin)
 xadmin.site.register(Programming, ProgrammingAdmin)
 

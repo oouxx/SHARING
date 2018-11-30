@@ -2,10 +2,14 @@ from rest_framework import serializers
 from .models import Software
 from users.models import UserProfile
 from .models import SoftwareDetail
+
+
 class SoftwareDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SoftwareDetail
-        fields = ("type",)
+        fields = "__all__"
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
@@ -13,33 +17,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class SoftwareSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField(read_only=True)
-    # title = serializers.CharField(required=False, allow_blank=True, max_length=100)
-    # code = serializers.CharField(style={'base_template': 'textarea.html'})
-    # linenos = serializers.BooleanField(required=False)
-    # language = serializers.ChoiceField(choices=LANGUAGE_CHOICES, default='python')
-    # style = serializers.ChoiceField(choices=STYLE_CHOICES, default='friendly')
-    #
-    # def create(self, validated_data):
-    #     """
-    #     Create and return a new `Snippet` instance, given the validated data.
-    #     """
-    #     return Software.objects.create(**validated_data)
-    #
-    # def update(self, instance, validated_data):
-    #     """
-    #     Update and return an existing `Snippet` instance, given the validated data.
-    #     """
-    #     instance.title = validated_data.get('title', instance.title)
-    #     instance.code = validated_data.get('code', instance.code)
-    #     instance.linenos = validated_data.get('linenos', instance.linenos)
-    #     instance.language = validated_data.get('language', instance.language)
-    #     instance.style = validated_data.get('style', instance.style)
-    #     instance.save()
-    #     return instance
     release_person= UserProfileSerializer()
     contribute_person= UserProfileSerializer()
     detail = SoftwareDetailSerializer()
+
     class Meta:
         model = Software
         fields = "__all__"
