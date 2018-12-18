@@ -1,15 +1,15 @@
 from datetime import datetime
 from mdeditor.fields import MDTextField
+from django.contrib.auth import get_user_model
 from django.db import models
-from users.models import UserProfile
-
+User = get_user_model()
 
 class CommonFields(models.Model):
     title = models.CharField(max_length=20, verbose_name="标题", default="")
-    release_person = models.ForeignKey(UserProfile, verbose_name="帖子发布者", null=True, blank=True,
+    release_person = models.ForeignKey(User, verbose_name="帖子发布者", null=True, blank=True,
                                        on_delete=models.SET_NULL, related_name="release_person")
     # 规定注册了的用户才能投稿
-    contribute_person = models.ForeignKey(UserProfile, verbose_name="帖子投稿者", null=True, blank=True,
+    contribute_person = models.ForeignKey(User, verbose_name="帖子投稿者", null=True, blank=True,
                                           on_delete=models.SET_NULL, related_name="contribute_person")
     release_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
     modify_time = models.DateTimeField(default=datetime.now, verbose_name="最新修改时间")
@@ -79,7 +79,7 @@ class Programming(CommonFields):
     description = MDTextField(verbose_name="软件描述")
 
     class Meta:
-        verbose_name = "编程语言"
+        verbose_name = "编程"
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -90,7 +90,7 @@ class Experience(models.Model):
     """
     经验分享
     """
-    user = models.ForeignKey(UserProfile, verbose_name="经验分享者", on_delete=models.CASCADE, related_name="experience")
+    user = models.ForeignKey(User, verbose_name="经验分享者", related_name="experience", null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=20, verbose_name="标题", default="")
     release_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
     modify_time = models.DateTimeField(default=datetime.now, verbose_name="最新修改时间")
@@ -100,6 +100,25 @@ class Experience(models.Model):
     class Meta:
         verbose_name = "经验"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+    """
+    提问
+    """
+    # 用户删除时帖子不删除
+    user = models.ForeignKey(User, verbose_name="提出问题者", null=True, blank=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=20, verbose_name="标题", default="")
+    release_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
+    modify_time = models.DateTimeField(default=datetime.now, verbose_name="最新修改时间")
+    description = MDTextField(verbose_name="详情")
+
+    class Meta:
+        verbose_name = "问答"
+        verbose_name_plural= verbose_name
 
     def __str__(self):
         return self.title

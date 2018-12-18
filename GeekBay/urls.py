@@ -5,6 +5,7 @@ from posts.views import ProgramViewset
 from posts.views import OpensourceViewset
 from users.views import UserViewset
 from posts.views import ExperienceViweset
+from posts.views import QuestionViweset
 from posts.views import HomeViewset
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
@@ -20,6 +21,7 @@ router.register(r'program', ProgramViewset, base_name="program")
 router.register(r'opensource', OpensourceViewset, base_name="opensource")
 router.register(r'register', UserViewset, base_name="register")
 router.register(r'experience', ExperienceViweset, base_name="experience")
+router.register(r'question', QuestionViweset, base_name="question")
 # router.register(r'home', HomeViewset, base_name="home")
 
 urlpatterns = [

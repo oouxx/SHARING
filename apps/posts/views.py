@@ -2,11 +2,13 @@ from .models import Software
 from .models import Programming
 from .models import Opensource
 from .models import Experience
+from .models import Question
 from .serializers import SoftwareSerializer
 from .serializers import ProgramSerializer
 from .serializers import OpensourceSerializer
 from .serializers import ExperienceSerializer
 from .serializers import HomeSerializer
+from .serializers import QuestionSerializer
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins
@@ -69,6 +71,30 @@ class ExperienceViweset(viewsets.ModelViewSet):
             return []
         return []
 
+
+class QuestionViweset(viewsets.ModelViewSet):
+    """
+    get:
+        获取最近的提问
+    create:
+        发出问答
+    destroy:
+        删除问答
+    update:
+        修改问答
+    """
+    serializer_class = QuestionSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    queryset = Question.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', )
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [permissions.IsAuthenticated()]
+        elif self.action == "retrieve":
+            return []
+        return []
 
 class HomeViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """

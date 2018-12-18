@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Software
 from .models import Programming
+from .models import Question
 from .models import Opensource
 from .models import Experience
 from .models import Post
@@ -37,6 +38,14 @@ class ExperienceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Experience
+        fields = ("user", "id", "title", "description")
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Question
         fields = ("user", "id", "title", "description")
 
 
