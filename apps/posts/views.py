@@ -1,32 +1,22 @@
 from .models import Software
-from .models import SoftwareDetail
 from .models import Programming
-from .models import ProgrammingDetail
+from .models import Opensource
+from .models import Experience
 from .serializers import SoftwareSerializer
-from .serializers import SoftwareDetailSerializer
-
-# one way to come true
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-#
-# class Software_list(APIView):
-#     """
-#     List all snippets, or create a new snippet.
-#     """
-#     def get(self, request, format=None):
-#         Softwares = Software.objects.all()
-#         serializer = SoftwareSerializer(Softwares, many=True)
-#         return Response(serializer.data)
-# ------------------------------------------------------------------------------
-# the other way
+from .serializers import ProgramSerializer
+from .serializers import OpensourceSerializer
+from .serializers import ExperienceSerializer
+from .serializers import HomeSerializer
+from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import mixins
-from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import SessionAuthentication
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
 
 
-
-# set pagination
 class SoftwaresPagination(PageNumberPagination):
     page_size = 10,
     page_size_query_param = 'page_size'
@@ -34,46 +24,66 @@ class SoftwaresPagination(PageNumberPagination):
     max_page_size = 100
 
 
-class SoftwareListSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class SoftwareViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = SoftwareSerializer
-    pagniation_class = SoftwaresPagination
-    # 手动实现过滤
+    queryset = Software.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('type', )
+
+
+class ProgramViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    serializer_class = ProgramSerializer
+    queryset = Programming.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('type', )
+
+
+class OpensourceViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    serializer_class = OpensourceSerializer
+    queryset = Opensource.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('type', )
+
+
+class ExperienceViweset(viewsets.ModelViewSet):
+    """
+    get:
+        获取经验
+    create:
+        创建经验
+    destroy:
+        删除经验
+    update:
+        修改经验
+    """
+    serializer_class = ExperienceSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    queryset = Experience.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', )
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [permissions.IsAuthenticated()]
+        elif self.action == "retrieve":
+            return []
+        return []
+
+
+class HomeViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    get:
+        获取首页内容
+    """
+    serializer_class = HomeSerializer
+
     def get_queryset(self):
-        queryset = Software.objects.all()
-        software_type = self.request.query_params.get("type", "")
-        if software_type != "All":
-            queryset = queryset.filter(type=software_type)
-        return queryset
-
-
-class SoftwareDetailSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    serializer_class = SoftwareDetailSerializer
-
-    def get_queryset(self):
-        queryset = SoftwareDetail.objects.all()
-        software_id = self.request.query_params.get("id", 0)
-        if software_id:
-            queryset = queryset.filter(id=software_id)
-        return queryset
-
-
-class ProgramListSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    serializer_class = SoftwareSerializer
-    # 手动实现过滤
-    def get_queryset(self):
-        queryset = Programming.objects.all()
-        programming_type = self.request.query_params.get("type", "")
-        if programming_type != "All":
-            queryset = queryset.filter(type=programming_type)
-        return queryset
-
-
-class ProgramDetailSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    serializer_class = SoftwareDetailSerializer
-
-    def get_queryset(self):
-        queryset = SoftwareDetail.objects.all()
-        software_id = self.request.query_params.get("id", 0)
-        if software_id:
-            queryset = queryset.filter(id=software_id)
+        from itertools import chain
+        sowa = Software.objects.filter()
+        opso = Opensource.objects.filter()
+        expe = Experience.objects.filter()
+        prog = Programming.objects.filter()
+        queryset = sorted(
+            chain(sowa, opso, expe, prog),
+            key=lambda car: car.modify_time, reverse=True)
         return queryset

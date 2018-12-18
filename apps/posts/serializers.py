@@ -1,27 +1,49 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from .models import Software
-from users.models import UserProfile
-from .models import SoftwareDetail
-
-
-class SoftwareDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SoftwareDetail
-        fields = "__all__"
+from .models import Programming
+from .models import Opensource
+from .models import Experience
+from .models import Post
+User = get_user_model()
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
+        model = User
         fields = "__all__"
 
 
 class SoftwareSerializer(serializers.ModelSerializer):
-    release_person= UserProfileSerializer()
-    contribute_person= UserProfileSerializer()
-    detail = SoftwareDetailSerializer()
-
     class Meta:
         model = Software
         fields = "__all__"
+
+
+class ProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Programming
+        fields = "__all__"
+
+
+class OpensourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Opensource
+        fields = "__all__"
+
+
+class ExperienceSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Experience
+        fields = ("user", "id", "title", "description")
+
+
+class HomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = "__all__"
+        depth = 2
+
 

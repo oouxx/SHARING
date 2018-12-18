@@ -49,9 +49,9 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'reversion',
-    # 'rest_framework.authtoken',   # token_authentication
     'DjangoUeditor',
     'mdeditor',
+    # 'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -91,18 +91,27 @@ WSGI_APPLICATION = 'GeekBay.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'geekbay',
+#         'USER': 'wxx',
+#         'PASSWORD': 'wxx1512',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306'
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'db.sqlite3',
     }
 }
 
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
 )
-
-
 
 
 # Password validation
@@ -151,37 +160,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
-
-
-    ),
-    # 'DEFAULT_THROTTLE_CLASSES': (
-    #     'rest_framework.throttling.AnonRateThrottle',
-    #     'rest_framework.throttling.UserRateThrottle'
-    # ),
-    # 'DEFAULT_THROTTLE_RATES': {
-    #     'anon': '2/minute',
-    #     'user': '3/minute'
-    # }
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
+    )
 }
 
 import datetime
-
 JWT_AUTH = {
-
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7 ),
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT'
 }
 
 
-#手机号码正则表达式
-REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 
-#云片网设置
-APIKEY = ""
 
 
