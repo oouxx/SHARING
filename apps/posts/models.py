@@ -6,6 +6,7 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    id = models.BigIntegerField(primary_key=True)
     title = models.CharField(max_length=20, verbose_name="标题", default="")
     # 规定注册了的用户才能投稿
     contribute_person = models.ForeignKey(User, verbose_name="发布者", null=True, blank=True,
@@ -112,7 +113,6 @@ class Question(Post):
     """
     提问
     """
-    # 用户删除时帖子不删除
     description = MDTextField(verbose_name="详情")
 
     class Meta:

@@ -40,19 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'operations.apps.OperationsConfig',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
-    'xadmin',
     'crispy_forms',
     'rest_framework',
     'django_filters',
     'corsheaders',
     'reversion',
     'DjangoUeditor',
-    'mdeditor'
-    # 'rest_framework.authtoken',
+    'mdeditor',
     # 'haystack'
+    # 'xadmin'
 ]
 
 MIDDLEWARE = [
@@ -103,13 +101,22 @@ WSGI_APPLICATION = 'GeekBay.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'geekbay',
+        'USER': 'wxx',
+        'PASSWORD': 'wxx1512',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
 )
@@ -188,13 +195,21 @@ JWT_AUTH = {
 }
 
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '/tmp/memcached.sock',
+#     }
+#
+# }
+
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '/tmp/memcached.sock',
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
-
 }
-
-
 

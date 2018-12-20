@@ -17,6 +17,7 @@ from rest_framework import viewsets
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 from rest_framework.response import Response
 
 
@@ -27,28 +28,28 @@ class SoftwaresPagination(PageNumberPagination):
     max_page_size = 100
 
 
-class SoftwareViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class SoftwareViewset(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = SoftwareSerializer
     queryset = Software.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('type', )
 
 
-class ProgramViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class ProgramViewset(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = ProgramSerializer
     queryset = Programming.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('type', )
 
 
-class OpensourceViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class OpensourceViewset(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = OpensourceSerializer
     queryset = Opensource.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('type', )
 
 
-class ExperienceViweset(viewsets.ModelViewSet):
+class ExperienceViweset(CacheResponseMixin, viewsets.ModelViewSet):
     """
     get:
         获取经验
@@ -73,7 +74,7 @@ class ExperienceViweset(viewsets.ModelViewSet):
         return []
 
 
-class QuestionViweset(viewsets.ModelViewSet):
+class QuestionViweset(CacheResponseMixin, viewsets.ModelViewSet):
     """
     get:
         获取最近的提问
@@ -98,7 +99,7 @@ class QuestionViweset(viewsets.ModelViewSet):
         return []
 
 
-class HomeViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class HomeViewset(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     get:
         获取首页内容
