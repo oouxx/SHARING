@@ -3,6 +3,7 @@ from .models import Programming
 from .models import Opensource
 from .models import Experience
 from .models import Question
+from .models import Post
 from .serializers import SoftwareSerializer
 from .serializers import ProgramSerializer
 from .serializers import OpensourceSerializer
@@ -96,6 +97,7 @@ class QuestionViweset(viewsets.ModelViewSet):
             return []
         return []
 
+
 class HomeViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     get:
@@ -104,12 +106,6 @@ class HomeViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
     serializer_class = HomeSerializer
 
     def get_queryset(self):
-        from itertools import chain
-        sowa = Software.objects.filter()
-        opso = Opensource.objects.filter()
-        expe = Experience.objects.filter()
-        prog = Programming.objects.filter()
-        queryset = sorted(
-            chain(sowa, opso, expe, prog),
-            key=lambda car: car.modify_time, reverse=True)
+        queryset = Post.objects.select_related(
+            'software', 'opensource', 'programming', 'experience', 'question').filter().order_by('modify_time')
         return queryset

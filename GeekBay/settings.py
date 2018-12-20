@@ -50,8 +50,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'reversion',
     'DjangoUeditor',
-    'mdeditor',
-    # 'rest_framework.authtoken'
+    'mdeditor'
+    # 'rest_framework.authtoken',
+    # 'haystack'
 ]
 
 MIDDLEWARE = [
@@ -90,7 +91,7 @@ WSGI_APPLICATION = 'GeekBay.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -112,6 +113,18 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
 )
+
+# Haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:8000/',  # 此处为elasticsearch运行的服务器ip地址，端口号固定为9200
+        'INDEX_NAME': 'local_search',  # 指定elasticsearch建立的索引库的名称
+    },
+}
+
+# 当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
 # Password validation
@@ -175,7 +188,13 @@ JWT_AUTH = {
 }
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '/tmp/memcached.sock',
+    }
 
+}
 
 
 

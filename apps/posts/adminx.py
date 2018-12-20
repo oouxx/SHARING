@@ -7,33 +7,33 @@ import xadmin
 
 
 class SoftwareAdmin(object):
-    list_display = ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
-    list_filter =  ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no" ]
-    search_fields = ["title", "release_person", "contribute_person", "comment_no", "like_no"]
+    list_display = ["title", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
+    list_filter =  ["title", "contribute_person", "release_time", "modify_time", "comment_no", "like_no" ]
+    search_fields = ["title", "contribute_person", "comment_no", "like_no"]
 
 
 class OpensourceAdmin(object):
-    list_display = ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
-    list_filter = ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
-    search_fields = ["title", "release_person", "contribute_person", "comment_no", "like_no"]
+    list_display = ["title", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
+    list_filter = ["title", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
+    search_fields = ["title", "contribute_person", "comment_no", "like_no"]
 
 
 class ProgrammingAdmin(object):
-    list_display = ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
-    list_filter = ["title", "release_person", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
-    search_fields = ["title", "release_person", "contribute_person", "comment_no", "like_no"]
+    list_display = ["title", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
+    list_filter = ["title", "contribute_person", "release_time", "modify_time", "comment_no", "like_no"]
+    search_fields = ["title", "contribute_person", "comment_no", "like_no"]
 
 
 class ExperienceAdmin(object):
-    list_display = ["user", "title", "release_time", "modify_time", "description"]
-    list_filter = ["user"]
-    search_fields = ["user", "title"]
+    list_display = ["title", "release_time", "modify_time", "contribute_person", "description"]
+    list_filter = ["contribute_person"]
+    search_fields = ["contribute_person", "title"]
 
 
 class QuestionAdmin(object):
-    list_display = ["user","title", "release_time", "modify_time", "description"]
-    list_filter = ["user"]
-    search_fields = ["user", "title"]
+    list_display = ["title", "release_time", "modify_time", "description", "contribute_person"]
+    list_filter = ["contribute_person"]
+    search_fields = ["contribute_person", "title"]
 
 
 xadmin.site.register(Software, SoftwareAdmin)

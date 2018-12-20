@@ -22,10 +22,10 @@ router.register(r'opensource', OpensourceViewset, base_name="opensource")
 router.register(r'register', UserViewset, base_name="register")
 router.register(r'experience', ExperienceViweset, base_name="experience")
 router.register(r'question', QuestionViweset, base_name="question")
-# router.register(r'home', HomeViewset, base_name="home")
+router.register(r'home', HomeViewset, base_name="home")
 
 urlpatterns = [
-    path('xadmin/', xadmin.site.urls),
+    path('admin/', admin.site.urls),
     re_path('^', include(router.urls)),
     re_path('^api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     re_path('^docs/', include_docs_urls(title="GeekBay")),

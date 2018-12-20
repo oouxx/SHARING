@@ -34,25 +34,23 @@ class OpensourceSerializer(serializers.ModelSerializer):
 
 
 class ExperienceSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    contribute_person = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Experience
-        fields = ("user", "id", "title", "description")
+        fields = ("contribute_person", "id", "title", "description")
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    contribute_person = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Question
-        fields = ("user", "id", "title", "description")
-
+        fields = ("contribute_person", "id", "title", "description")
 
 class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
-        depth = 2
 
 
