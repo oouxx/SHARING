@@ -48,6 +48,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ("contribute_person", "id", "title", "description")
 
+
 class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
