@@ -73,23 +73,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'GeekBay.wsgi.application'
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'geekbay',
-#         'USER': 'wxx',
-#         'PASSWORD': 'wxx1512',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306'
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'geekbay',
+        'USER': 'wxx',
+        'PASSWORD': 'wxx1512',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'db.sqlite3',
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
