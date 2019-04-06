@@ -20,7 +20,6 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'users.UserProfile'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,23 +72,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'GeekBay.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'geekbay',
-        'USER': 'wxx',
-        'PASSWORD': 'wxx1512',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'geekbay',
+#         'USER': 'wxx',
+#         'PASSWORD': 'wxx1512',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306'
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -137,7 +136,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, "static"),
 )
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -148,6 +147,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
 
 import datetime
 JWT_AUTH = {
