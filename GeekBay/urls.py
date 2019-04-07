@@ -11,6 +11,9 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from django.contrib import admin
+from django.views.static import serve
+from django.conf import settings
+
 
 router = DefaultRouter()
 router.register(r'softwares', SoftwareViewset, base_name="softwares")
@@ -31,3 +34,7 @@ urlpatterns = [
     re_path('^login', obtain_jwt_token),
     re_path('mdeditor/', include('mdeditor.urls')),
 ]
+
+
+if not settings.DEBUG:
+    urlpatterns += [re_path('^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})]
