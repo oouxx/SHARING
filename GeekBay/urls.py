@@ -13,7 +13,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from django.contrib import admin
 from django.views.static import serve
 from django.conf import settings
-
+from django.views.generic import TemplateView
 
 router = DefaultRouter()
 router.register(r'softwares', SoftwareViewset, base_name="softwares")
@@ -26,7 +26,8 @@ router.register(r'home', HomeViewset, base_name="home")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path('^', include(router.urls)),
+    path('', TemplateView.as_view(template_name="index.html"), name="index"),
+    re_path('api/', include(router.urls)),
     re_path('^api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     re_path('^docs/', include_docs_urls(title="GeekBay")),
     # drf 自带token认证模式
@@ -37,4 +38,4 @@ urlpatterns = [
 
 
 if not settings.DEBUG:
-    urlpatterns += [re_path('^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})]
+    urlpatterns += [re_path('^static/(?P<path>.*)$', serve, {'document_root': settings.STATICFILES_DIRS[0]})]
